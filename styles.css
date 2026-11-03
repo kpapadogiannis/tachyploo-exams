@@ -212,9 +212,9 @@ body {
     border-radius: 0.85rem !important;
   }
 
-  /* Κουμπιά πλοήγησης (Προηγούμενη / Επόμενη) compact */
-  #btn-prev, #btn-next, #btn-submit-exam {
-    padding: 0.55rem 1rem !important;
+  /* Κουμπιά πλοήγησης (Προηγούμενη / Επόμενη / Αποθήκευση) compact */
+  #btn-prev, #btn-next, #btn-submit-exam, #btn-bookmark-question {
+    padding: 0.55rem 0.85rem !important;
     font-size: 12px !important;
     border-radius: 0.75rem !important;
   }
