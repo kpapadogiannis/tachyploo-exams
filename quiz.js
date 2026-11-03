@@ -363,11 +363,11 @@ class QuizEngine {
     if (!this.btnBookmark) return;
     const isSaved = this.isQuestionSaved(id);
     if (isSaved) {
-      this.btnBookmark.innerHTML = `<span class="hidden sm:inline">Αποθηκευμένη</span>`;
-      this.btnBookmark.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-white hover:bg-amber-600 transition-colors shadow-sm flex items-center space-x-1";
+      this.btnBookmark.innerHTML = `<span>Αποθηκευμένη ερώτηση</span>`;
+      this.btnBookmark.className = "px-4 py-2.5 rounded-xl border border-amber-500 bg-amber-500 font-bold text-white text-sm hover:bg-amber-600 transition-colors shadow-sm cursor-pointer";
     } else {
-      this.btnBookmark.innerHTML = `<span class="hidden sm:inline">Αποθήκευση</span>`;
-      this.btnBookmark.className = "px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors border border-slate-300 flex items-center space-x-1";
+      this.btnBookmark.innerHTML = `<span>Αποθήκευση ερώτησης</span>`;
+      this.btnBookmark.className = "px-4 py-2.5 rounded-xl border border-slate-300 bg-slate-100 font-semibold text-slate-700 hover:bg-slate-200 text-sm transition-colors shadow-sm cursor-pointer";
     }
   }
 
@@ -407,8 +407,10 @@ class QuizEngine {
       this.timeRemaining = this.examTimeLimit;
       this.startTimer();
       this.timerContainer.classList.remove('hidden');
-      this.badgeMode.textContent = "Επίσημη Προσομοίωση (20 Ερωτήσεις / 40')";
-      this.badgeMode.className = "px-3 py-1 text-xs font-bold rounded-full bg-rose-100 text-rose-800 border border-rose-200";
+      if (this.badgeMode) {
+        this.badgeMode.textContent = "Επίσημη Προσομοίωση (20 Ερωτήσεις / 40')";
+        this.badgeMode.className = "px-3 py-1 text-xs font-bold rounded-full bg-rose-100 text-rose-800 border border-rose-200";
+      }
     } else if (mode === 'saved') {
       const savedIds = this.getSavedQuestionIds();
       this.currentList = this.allQuestions.filter(q => savedIds.includes(q.id));
@@ -417,8 +419,10 @@ class QuizEngine {
         return;
       }
       this.timerContainer.classList.add('hidden');
-      this.badgeMode.textContent = `Τεστ με Αποθηκευμένες (${this.currentList.length} Ερωτήσεις)`;
-      this.badgeMode.className = "px-3 py-1 text-xs font-bold rounded-full bg-amber-100 text-amber-800 border border-amber-200";
+      if (this.badgeMode) {
+        this.badgeMode.textContent = `Τεστ με Αποθηκευμένες (${this.currentList.length} Ερωτήσεις)`;
+        this.badgeMode.className = "px-3 py-1 text-xs font-bold rounded-full bg-amber-100 text-amber-800 border border-amber-200";
+      }
     } else if (mode === 'category') {
       if (this.selectedCategory === 'all') {
         this.currentList = [...this.allQuestions];
@@ -426,14 +430,18 @@ class QuizEngine {
         this.currentList = this.allQuestions.filter(q => q.cat === this.selectedCategory);
       }
       this.timerContainer.classList.add('hidden');
-      this.badgeMode.textContent = `Θεματική: ${this.selectedCategory}`;
-      this.badgeMode.className = "px-3 py-1 text-xs font-bold rounded-full bg-sky-100 text-sky-800 border border-sky-200";
+      if (this.badgeMode) {
+        this.badgeMode.textContent = `Θεματική: ${this.selectedCategory}`;
+        this.badgeMode.className = "px-3 py-1 text-xs font-bold rounded-full bg-sky-100 text-sky-800 border border-sky-200";
+      }
     } else {
       // Study mode (όλες οι 97 ερωτήσεις)
       this.currentList = [...this.allQuestions];
       this.timerContainer.classList.add('hidden');
-      this.badgeMode.textContent = "Ελεύθερη Μελέτη (97 Ερωτήσεις)";
-      this.badgeMode.className = "px-3 py-1 text-xs font-bold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200";
+      if (this.badgeMode) {
+        this.badgeMode.textContent = "Ελεύθερη Μελέτη (97 Ερωτήσεις)";
+        this.badgeMode.className = "px-3 py-1 text-xs font-bold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200";
+      }
     }
 
     this.quizIntro.classList.add('hidden');
@@ -483,7 +491,7 @@ class QuizEngine {
     this.progressBar.style.width = `${percent}%`;
 
     // Badges & Bookmark State
-    this.badgeCat.textContent = qData.cat;
+    if (this.badgeCat) this.badgeCat.textContent = qData.cat;
     this.updateBookmarkButtonState(qData.id);
 
     // Text
