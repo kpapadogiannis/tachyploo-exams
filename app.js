@@ -131,5 +131,68 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ==============================================================
+  // Welcome Modal Logic (Μορφή 1)
+  // ==============================================================
+  const welcomeModal = document.getElementById('welcome-modal');
+  const welcomeCloseBtn = document.getElementById('welcome-close-btn');
+  const welcomeStartBtn = document.getElementById('welcome-start-btn');
+  const welcomeDontShow = document.getElementById('welcome-dont-show');
+
+  function openWelcomeModal() {
+    if (welcomeModal) {
+      welcomeModal.classList.remove('hidden');
+    }
+  }
+
+  function closeWelcomeModal() {
+    if (welcomeModal) {
+      welcomeModal.classList.add('hidden');
+      if (welcomeDontShow && welcomeDontShow.checked) {
+        try {
+          localStorage.setItem('taxyploo_welcome_seen', 'true');
+        } catch(e) {}
+      }
+    }
+  }
+
+  window.openWelcomeModal = openWelcomeModal;
+  window.closeWelcomeModal = closeWelcomeModal;
+
+  if (welcomeCloseBtn) {
+    welcomeCloseBtn.addEventListener('click', closeWelcomeModal);
+  }
+
+  if (welcomeStartBtn) {
+    welcomeStartBtn.addEventListener('click', () => {
+      try {
+        localStorage.setItem('taxyploo_welcome_seen', 'true');
+      } catch(e) {}
+      if (welcomeModal) welcomeModal.classList.add('hidden');
+    });
+  }
+
+  if (welcomeModal) {
+    welcomeModal.addEventListener('click', (e) => {
+      if (e.target === welcomeModal) {
+        closeWelcomeModal();
+      }
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && welcomeModal && !welcomeModal.classList.contains('hidden')) {
+      closeWelcomeModal();
+    }
+  });
+
+  // Check if user has already seen the welcome modal
+  try {
+    const hasSeenWelcome = localStorage.getItem('taxyploo_welcome_seen');
+    if (!hasSeenWelcome) {
+      setTimeout(openWelcomeModal, 400);
+    }
+  } catch(e) {}
+
   updateSidebarSavedCount();
 });
