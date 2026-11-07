@@ -13,8 +13,24 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 
-<body
-  class="min-h-full md:h-full text-slate-800 antialiased selection:bg-sky-500 selection:text-white flex md:overflow-hidden">
+<body class="h-full text-slate-800 antialiased selection:bg-sky-500 selection:text-white flex overflow-hidden">
+  <!-- ============================================================== -->
+  <!-- PULL TO REFRESH INDICATOR (Mobile) -->
+  <!-- ============================================================== -->
+  <div id="pull-refresh-indicator"
+    class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center pointer-events-none transition-transform duration-200 transform -translate-y-full">
+    <div
+      class="mt-2.5 px-4 py-2 bg-slate-900/95 text-white border border-slate-700/80 rounded-full shadow-2xl flex items-center space-x-2 text-xs font-bold backdrop-blur-md">
+      <svg id="pull-refresh-spinner" class="w-4 h-4 text-sky-400 transition-transform duration-200" fill="none"
+        stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+        </path>
+      </svg>
+      <span id="pull-refresh-label" class="tracking-wide text-slate-200">Σύρετε για ανανέωση</span>
+    </div>
+  </div>
+
 
   <!-- ============================================================== -->
   <!-- MOBILE SIDEBAR BACKDROP & DRAWER -->
@@ -168,7 +184,7 @@
   <!-- ============================================================== -->
   <!-- MAIN CONTENT AREA (NO TOP NAVIGATION BAR) -->
   <!-- ============================================================== -->
-  <div class="flex-1 flex flex-col md:pl-72 w-full md:h-full md:overflow-y-auto">
+  <div id="main-scroll-area" class="flex-1 flex flex-col md:pl-72 w-full h-full overflow-y-auto">
 
     <!-- Mobile Top Bar (only visible on mobile) -->
     <div
@@ -1184,11 +1200,6 @@
 
   </div> <!-- τέλος κεντρικού wrapper -->
 
-  <!-- Scripts -->
-  <script src="questions.js"></script>
-  <script src="quiz.js"></script>
-  <script src="tools.js"></script>
-  <script src="app.js"></script>
   <!-- ============================================================== -->
   <!-- WELCOME MODAL (Μορφή 1: Onboarding Pop-up) -->
   <!-- ============================================================== -->
@@ -1247,6 +1258,28 @@
     </div>
   </div>
 
+
+  <!-- Immediate First-Visit Welcome Modal Check -->
+  <script>
+    (function() {
+      try {
+        if (!localStorage.getItem('taxyploo_welcome_v2')) {
+          var m = document.getElementById('welcome-modal');
+          if (m) m.classList.remove('hidden');
+        }
+      } catch(e) {
+        var m = document.getElementById('welcome-modal');
+        if (m) m.classList.remove('hidden');
+      }
+    })();
+  </script>
+
+<!-- Scripts -->
+  <script src="questions.js"></script>
+  <script src="quiz.js"></script>
+  <script src="tools.js"></script>
+  <script src="app.js"></script>
+  
 </body>
 
 </html>
