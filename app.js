@@ -132,7 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==============================================================
-  // Welcome Modal Logic (Μορφή 1)
+// ==============================================================
+  // Welcome Modal Logic (Απευθείας εμφάνιση 1ης φοράς)
   // ==============================================================
   const welcomeModal = document.getElementById('welcome-modal');
   const welcomeCloseBtn = document.getElementById('welcome-close-btn');
@@ -140,17 +141,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const welcomeDontShow = document.getElementById('welcome-dont-show');
 
   function openWelcomeModal() {
-    if (welcomeModal) {
-      welcomeModal.classList.remove('hidden');
+    const modal = welcomeModal || document.getElementById('welcome-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
     }
   }
 
   function closeWelcomeModal() {
-    if (welcomeModal) {
-      welcomeModal.classList.add('hidden');
+    const modal = welcomeModal || document.getElementById('welcome-modal');
+    if (modal) {
+      modal.classList.add('hidden');
       if (welcomeDontShow && welcomeDontShow.checked) {
         try {
-          localStorage.setItem('taxyploo_welcome_seen', 'true');
+          localStorage.setItem('taxyploo_welcome_v2', 'true');
         } catch(e) {}
       }
     }
@@ -166,9 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (welcomeStartBtn) {
     welcomeStartBtn.addEventListener('click', () => {
       try {
-        localStorage.setItem('taxyploo_welcome_seen', 'true');
+        localStorage.setItem('taxyploo_welcome_v2', 'true');
       } catch(e) {}
-      if (welcomeModal) welcomeModal.classList.add('hidden');
+      const modal = welcomeModal || document.getElementById('welcome-modal');
+      if (modal) modal.classList.add('hidden');
     });
   }
 
@@ -181,18 +185,143 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && welcomeModal && !welcomeModal.classList.contains('hidden')) {
+    const modal = welcomeModal || document.getElementById('welcome-modal');
+    if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
       closeWelcomeModal();
     }
   });
 
-  // Check if user has already seen the welcome modal
+  // Άμεση εμφάνιση στο 1ο άνοιγμα (χωρίς καθυστέρηση)
   try {
-    const hasSeenWelcome = localStorage.getItem('taxyploo_welcome_seen');
+    const hasSeenWelcome = localStorage.getItem('taxyploo_welcome_v2');
     if (!hasSeenWelcome) {
-      setTimeout(openWelcomeModal, 400);
+      openWelcomeModal();
     }
-  } catch(e) {}
+  } catch(e) {
+    openWelcomeModal();
+  }
+
+  // ==============================================================
+  // Mobile Pull-to-Refresh (Απότομο scroll / σύρσιμο προς τα πάνω από την κορυφή)
+  // ==============================================================
+  const pullIndicator = document.getElementById('pull-refresh-indicator');
+  const pullSpinner = document.getElementById('pull-refresh-spinner');
+  const pullLabel = document.getElementById('pull-refresh-label');
+
+  let touchStartY = 0;
+  let touchStartX = 0;
+  let touchStartTime = 0;
+  let isPullingToRefresh = false;
+  let isRefreshing = false;
+
+  const PULL_THRESHOLD = 75; // px έλξης για επιβεβαίωση ανανέωσης
+
+  function getScrollTop() {
+    const area = document.getElementById('main-scroll-area');
+    if (area && typeof area.scrollTop === 'number') {
+      return area.scrollTop;
+    }
+    return window.pageYOffset || document.documentElement.scrollTop || 0;
+  }
+
+  function handleTouchStart(e) {
+    if (isRefreshing) return;
+    if (e.touches.length !== 1) return;
+
+    // Ενεργοποιείται μόνο εάν ο χρήστης βρίσκεται στην κορυφή της σελίδας
+    if (getScrollTop() <= 2) {
+      touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
+      touchStartTime = Date.now();
+      isPullingToRefresh = true;
+    } else {
+      isPullingToRefresh = false;
+    }
+  }
+
+  function handleTouchMove(e) {
+    if (!isPullingToRefresh || isRefreshing) return;
+    if (e.touches.length !== 1) return;
+
+    const currentY = e.touches[0].clientY;
+    const currentX = e.touches[0].clientX;
+    const deltaY = currentY - touchStartY;
+    const deltaX = Math.abs(currentX - touchStartX);
+
+    // Εάν μετακινείται προς τα πάνω ή οριζόντια, ακυρώνεται η έλξη
+    if (getScrollTop() > 2 || deltaX > deltaY) {
+      isPullingToRefresh = false;
+      if (pullIndicator) {
+        pullIndicator.style.transform = 'translateY(-100%)';
+      }
+      return;
+    }
+
+    if (deltaY > 5) {
+      // Σύρσιμο προς τα κάτω από την κορυφή (Pull down)
+      const pullProgress = Math.min(deltaY * 0.45, 95);
+      if (pullIndicator) {
+        pullIndicator.style.transform = `translateY(${pullProgress}px)`;
+      }
+
+      if (deltaY >= PULL_THRESHOLD) {
+        if (pullLabel) pullLabel.textContent = 'Αφήστε για ανανέωση';
+        if (pullSpinner) pullSpinner.style.transform = 'rotate(180deg)';
+      } else {
+        if (pullLabel) pullLabel.textContent = 'Σύρετε για ανανέωση';
+        if (pullSpinner) pullSpinner.style.transform = 'rotate(0deg)';
+      }
+    }
+  }
+
+  function handleTouchEnd(e) {
+    if (!isPullingToRefresh || isRefreshing) return;
+    isPullingToRefresh = false;
+
+    const touchEndY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : touchStartY;
+    const deltaY = touchEndY - touchStartY;
+    const duration = Date.now() - touchStartTime;
+    const velocity = deltaY / Math.max(duration, 1);
+
+    // Ενεργοποίηση εάν ξεπέρασε το όριο ή εάν έγινε απότομο swipe (flick με ταχύτητα >= 0.45 και απόσταση >= 40px)
+    const isAbruptSwipe = deltaY >= 40 && velocity >= 0.45;
+    const isPastThreshold = deltaY >= PULL_THRESHOLD;
+
+    if (isPastThreshold || isAbruptSwipe) {
+      isRefreshing = true;
+      if (pullIndicator) {
+        pullIndicator.style.transform = 'translateY(70px)';
+      }
+      if (pullLabel) {
+        pullLabel.textContent = 'Ανανέωση σελίδας...';
+      }
+      if (pullSpinner) {
+        pullSpinner.classList.add('animate-spin');
+      }
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 350);
+    } else {
+      if (pullIndicator) {
+        pullIndicator.style.transform = 'translateY(-100%)';
+      }
+    }
+  }
+
+  // Σύνδεση ακροατών touch στην κύρια περιοχή κύλισης και στο παράθυρο
+  const mainScroll = document.getElementById('main-scroll-area');
+  if (mainScroll) {
+    mainScroll.addEventListener('touchstart', handleTouchStart, { passive: true });
+    mainScroll.addEventListener('touchmove', handleTouchMove, { passive: true });
+    mainScroll.addEventListener('touchend', handleTouchEnd, { passive: true });
+    mainScroll.addEventListener('touchcancel', handleTouchEnd, { passive: true });
+  }
+
+  window.addEventListener('touchstart', handleTouchStart, { passive: true });
+  window.addEventListener('touchmove', handleTouchMove, { passive: true });
+  window.addEventListener('touchend', handleTouchEnd, { passive: true });
+  window.addEventListener('touchcancel', handleTouchEnd, { passive: true });
 
   updateSidebarSavedCount();
 });
