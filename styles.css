@@ -219,3 +219,9 @@ body {
     border-radius: 0.75rem !important;
   }
 }
+
+/* Pull to refresh transition */
+#pull-refresh-indicator {
+  will-change: transform;
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
