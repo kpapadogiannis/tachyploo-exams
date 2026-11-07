@@ -113,6 +113,17 @@
         <span>Συνοπτικός Οδηγός (Cheat Sheets)</span>
       </button>
 
+            <!-- Item 7: Οδηγός Πλατφόρμας -->
+      <button onclick="window.openWelcomeModal && window.openWelcomeModal()"
+        class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all text-sky-400 hover:text-white hover:bg-slate-800/70 font-semibold border border-sky-500/30 mt-3 cursor-pointer">
+        <div class="flex items-center space-x-2.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>Οδηγός Πλατφόρμας</span>
+        </div>
+      </button>
+
       <!-- Item 6: Εργαλεία & Checklist -->
       <button data-sidebar-target="view-tools"
         class="sidebar-nav-item w-full flex items-center space-x-3 px-3.5 py-3 rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-800/70 font-semibold">
@@ -1140,6 +1151,103 @@
   <script src="quiz.js"></script>
   <script src="tools.js"></script>
   <script src="app.js"></script>
+  <!-- ============================================================== -->
+  <!-- WELCOME MODAL (Μορφή 1: Onboarding Pop-up) -->
+  <!-- ============================================================== -->
+  <div id="welcome-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden transition-opacity duration-300">
+    
+    <!-- Modal Card -->
+    <div class="relative w-full max-w-2xl bg-slate-900 border border-slate-700/80 rounded-3xl shadow-2xl overflow-hidden p-6 sm:p-8 text-white">
+      
+      <!-- Watermark Logo Background (Διαφανές φόντο) -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+        <img src="logo.png" alt="Logo Watermark" class="w-80 h-80 sm:w-96 sm:h-96 object-contain opacity-[0.08] transform scale-110">
+      </div>
+
+      <!-- Content Container -->
+      <div class="relative z-10 space-y-6">
+        
+        <!-- Modal Header -->
+        <div class="flex items-start justify-between gap-4 border-b border-slate-800 pb-4">
+          <div class="flex items-center space-x-3">
+            <img src="logo.png" alt="Speedboat Logo" class="w-10 h-10 object-contain flex-shrink-0 drop-shadow">
+            <div>
+              <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">Καλώς ήρθατε στο Ταχύπλοο Exams</h3>
+              <p class="text-xs sm:text-sm text-sky-400 font-semibold">Πλήρης ψηφιακός οδηγός & εξεταστικό κέντρο ταχυπλόων</p>
+            </div>
+          </div>
+          <button id="welcome-close-btn" class="p-1.5 rounded-xl bg-slate-800/80 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors cursor-pointer" title="Κλείσιμο">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 4 Features Grid (2x2) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
+          
+          <!-- Feature 1: Quiz -->
+          <div class="p-3.5 rounded-2xl bg-slate-800/60 border border-slate-700/60 backdrop-blur-sm space-y-1.5">
+            <div class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-500 flex-shrink-0"></span>
+              <h4 class="font-bold text-white text-sm">Εξεταστικό Κέντρο (Quiz)</h4>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              Προσομοίωση 20 ερωτήσεων σε 40 λεπτά (όριο 18/20), μελέτη όλων των 97 θεμάτων και εξάσκηση ανά κεφάλαιο.
+            </p>
+          </div>
+
+          <!-- Feature 2: Mistakes & Storage -->
+          <div class="p-3.5 rounded-2xl bg-slate-800/60 border border-slate-700/60 backdrop-blur-sm space-y-1.5">
+            <div class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500 flex-shrink-0"></span>
+              <h4 class="font-bold text-white text-sm">Αποθήκευση & Λάθη</h4>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              Αυτόματη καταγραφή κάθε λάθους στη συσκευή σας για επανάληψη, καθώς και χειροκίνητη αποθήκευση με το εικονίδιο δισκέτας.
+            </p>
+          </div>
+
+          <!-- Feature 3: Nautical Theory -->
+          <div class="p-3.5 rounded-2xl bg-slate-800/60 border border-slate-700/60 backdrop-blur-sm space-y-1.5">
+            <div class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-sky-500 flex-shrink-0"></span>
+              <h4 class="font-bold text-white text-sm">Ναυτική Θεωρία & Νόμοι</h4>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              Κανόνες ΔΚΑΣ, φανοί νυκτοπλοΐας, σήματα ημέρας/IALA, ισχύς, εξαιρέσεις και χρήσεις της άδειας χειριστή.
+            </p>
+          </div>
+
+          <!-- Feature 4: Tools -->
+          <div class="p-3.5 rounded-2xl bg-slate-800/60 border border-slate-700/60 backdrop-blur-sm space-y-1.5">
+            <div class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 flex-shrink-0"></span>
+              <h4 class="font-bold text-white text-sm">Ψηφιακά Εργαλεία</h4>
+            </div>
+            <p class="text-slate-300 leading-relaxed">
+              Υπολογιστής καυσίμων (+50% κανόνας τρίτων), έκταμα άγκυρας, checklist απόπλου και πρωτόκολλο MAYDAY (VHF Ch. 16).
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-800">
+          <label class="flex items-center space-x-2 text-xs text-slate-400 cursor-pointer select-none">
+            <input type="checkbox" id="welcome-dont-show" class="rounded border-slate-700 bg-slate-800 text-sky-500 focus:ring-sky-500">
+            <span>Να μην εμφανιστεί ξανά αυτόματα</span>
+          </label>
+
+          <button id="welcome-start-btn" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-sm transition-all shadow-lg hover:shadow-sky-500/25 cursor-pointer">
+            Έναρξη Περιήγησης →
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
 </body>
 
 </html>
