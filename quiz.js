@@ -362,12 +362,15 @@ class QuizEngine {
   updateBookmarkButtonState(id) {
     if (!this.btnBookmark) return;
     const isSaved = this.isQuestionSaved(id);
+    const floppyIcon = `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>`;
     if (isSaved) {
-      this.btnBookmark.innerHTML = `<span>Αποθηκευμένη ερώτηση</span>`;
-      this.btnBookmark.className = "px-4 py-2.5 rounded-xl border border-amber-500 bg-amber-500 font-bold text-white text-sm hover:bg-amber-600 transition-colors shadow-sm cursor-pointer";
+      this.btnBookmark.innerHTML = floppyIcon;
+      this.btnBookmark.title = "Αποθηκευμένη ερώτηση (κλικ για αφαίρεση)";
+      this.btnBookmark.className = "px-3.5 py-2.5 rounded-xl border border-amber-500 bg-amber-500 text-white hover:bg-amber-600 transition-colors shadow-sm cursor-pointer flex items-center justify-center";
     } else {
-      this.btnBookmark.innerHTML = `<span>Αποθήκευση ερώτησης</span>`;
-      this.btnBookmark.className = "px-4 py-2.5 rounded-xl border border-slate-300 bg-slate-100 font-semibold text-slate-700 hover:bg-slate-200 text-sm transition-colors shadow-sm cursor-pointer";
+      this.btnBookmark.innerHTML = floppyIcon;
+      this.btnBookmark.title = "Αποθήκευση ερώτησης";
+      this.btnBookmark.className = "px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors shadow-sm cursor-pointer flex items-center justify-center";
     }
   }
 
