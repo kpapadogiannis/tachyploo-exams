@@ -1,0 +1,25 @@
+{
+  "name": "tachyploo-exams",
+  "version": "1.0.0",
+  "description": "Ταχύπλοο Exams - Εξεταστικό Κέντρο & Οδηγός Ταχυπλόων",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Ready'",
+    "cap:add:android": "npx cap add android",
+    "cap:sync": "npx cap sync",
+    "cap:open": "npx cap open android"
+  },
+  "keywords": [
+    "tachyploo",
+    "exams",
+    "speedboat",
+    "quiz"
+  ],
+  "author": "Κώστας Παπαδόγιαννης",
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0"
+  }
+}
