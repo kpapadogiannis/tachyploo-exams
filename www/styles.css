@@ -1,0 +1,227 @@
+/* Custom Nautical Stylesheet & Animations */
+
+:root {
+  --primary-navy: #0b192c;
+  --ocean-blue: #0284c7;
+  --sea-emerald: #10b981;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+  color: #1e293b;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Glassmorphism Navigation */
+.glass-nav {
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* Quiz Option Selection Transition */
+.quiz-opt-btn {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Accordion Transition Styles */
+.accordion-btn {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.accordion-btn .accordion-icon {
+  transition: transform 0.25s ease;
+}
+
+.accordion-content {
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Print styling for results */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  .no-print, header, nav, footer, #quiz-intro, .btn-action {
+    display: none !important;
+  }
+  #quiz-results, #result-details {
+    display: block !important;
+  }
+}
+/* Custom Nautical Stylesheet & Animations */
+
+:root {
+  --primary-navy: #0b192c;
+  --ocean-blue: #0284c7;
+  --sea-emerald: #10b981;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+  color: #1e293b;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Glassmorphism Navigation */
+.glass-nav {
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* Quiz Option Selection Transition */
+.quiz-opt-btn {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Accordion Transition Styles */
+.accordion-btn {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.accordion-btn .accordion-icon {
+  transition: transform 0.25s ease;
+}
+
+.accordion-content {
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- MOBILE QUIZ UI OPTIMIZATION (Χωρίς περιττό scroll στα κινητά) --- */
+@media (max-width: 768px) {
+  #quiz-question-card {
+    padding: 1rem !important; /* Μικρότερο padding στα κινητά για να χωράει ομοιόμορφα */
+  }
+  .quiz-opt-btn {
+    padding: 0.75rem !important; /* Πιο συμπαγή κουμπιά απαντήσεων */
+    font-size: 13px !important;
+  }
+  #view-quiz .grid {
+    gap: 0.75rem !important;
+  }
+}
+
+/* Print styling for results */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  .no-print, header, nav, footer, #quiz-intro, .btn-action {
+    display: none !important;
+  }
+  #quiz-results, #result-details {
+    display: block !important;
+  }
+}
+/* --- MOBILE UI OPTIMIZATION (Αναλογίες & Compact Προβολή) --- */
+@media (max-width: 768px) {
+  /* Συμπαγές και καθαρό padding σε όλο το main σώμα για κινητά */
+  main {
+    padding: 0.5rem !important;
+  }
+
+  /* Μικρότερα, κομψά headers στα views ώστε να φαίνονται άμεσα χωρίς scroll */
+  #view-quiz .bg-gradient-to-r,
+  .portal-view > div:first-child {
+    padding: 0.85rem 1rem !important;
+    border-radius: 1.25rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  #view-quiz .bg-gradient-to-r h2,
+  .portal-view h1,
+  .portal-view h2 {
+    font-size: 1.1rem !important;
+    line-height: 1.25 !important;
+  }
+
+  /* Το βασικό πλαίσιο του Quiz αποκτά συμμετρικά περιθώρια δεξιά-αριστερά */
+  #view-quiz .bg-white.border.border-slate-200.rounded-3xl {
+    margin-left: 0.5rem !important;
+    margin-right: 0.5rem !important;
+    padding: 0.85rem !important;
+    border-radius: 1.25rem !important;
+  }
+
+  /* Κάρτα ερώτησης και κουμπιά απαντήσεων σε πιο μαζεμένες αναλογίες */
+  #quiz-question-card {
+    padding: 0.85rem !important;
+    border-radius: 1rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  #quiz-question-text {
+    font-size: 0.95rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .quiz-opt-btn {
+    padding: 0.65rem 0.75rem !important;
+    font-size: 12.5px !important;
+    border-radius: 0.85rem !important;
+  }
+
+  /* Κουμπιά πλοήγησης (Προηγούμενη / Επόμενη / Αποθήκευση) compact */
+  #btn-prev, #btn-next, #btn-submit-exam, #btn-bookmark-question {
+    padding: 0.55rem 0.85rem !important;
+    font-size: 12px !important;
+    border-radius: 0.75rem !important;
+  }
+}
+
+/* Pull to refresh transition */
+#pull-refresh-indicator {
+  will-change: transform;
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
