@@ -1,0 +1,9 @@
+{
+  "appId": "gr.tachyploo.exams",
+  "appName": "Ταχύπλοο Exams",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}
