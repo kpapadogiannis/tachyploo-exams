@@ -1,3 +1,61 @@
+// ==============================================================
+// Global In-Page Toast Notification (Replaces native alert)
+// ==============================================================
+function showToast(message, type = 'info', duration = 3500) {
+  let container = document.getElementById('app-toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'app-toast-container';
+    container.className = 'fixed top-4 left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center space-y-2 pointer-events-none px-4 w-full max-w-md';
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement('div');
+  const borderCol = type === 'error' ? 'border-rose-500/80 bg-slate-900/95 text-rose-200' :
+                    type === 'warning' ? 'border-amber-500/80 bg-slate-900/95 text-amber-200' :
+                    'border-sky-500/80 bg-slate-900/95 text-slate-100';
+
+  toast.className = `pointer-events-auto flex items-center space-x-3 px-4 py-3 rounded-2xl border ${borderCol} shadow-2xl backdrop-blur-md transform transition-all duration-300 -translate-y-4 opacity-0 text-xs sm:text-sm font-semibold select-none`;
+  
+  const iconSvg = type === 'error' ?
+    '<svg class="w-5 h-5 text-rose-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>' :
+    type === 'warning' ?
+    '<svg class="w-5 h-5 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>' :
+    '<svg class="w-5 h-5 text-sky-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+
+  toast.innerHTML = `
+    ${iconSvg}
+    <span class="flex-1 leading-snug">${message}</span>
+  `;
+
+  container.appendChild(toast);
+
+  requestAnimationFrame(() => {
+    toast.classList.remove('-translate-y-4', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+  });
+
+  setTimeout(() => {
+    toast.classList.remove('translate-y-0', 'opacity-100');
+    toast.classList.add('-translate-y-4', 'opacity-0');
+    setTimeout(() => {
+      if (toast.parentNode) toast.parentNode.removeChild(toast);
+    }, 300);
+  }, duration);
+}
+
+window.showToast = showToast;
+window.alert = function(msg) {
+  showToast(msg, 'warning');
+};
+
+// Register Service Worker for Offline / PWA Support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+
 // Κεντρικός Διαχειριστής Πλοήγησης (Sidebar Routing) & Διαδραστικών Στοιχείων (Accordions)
 
 document.addEventListener('DOMContentLoaded', () => {
