@@ -110,7 +110,7 @@ function initFuelCalculator() {
     const burnPerHour = parseFloat(burnInput.value) || 0;
 
     if (dist <= 0 || speed <= 0 || burnPerHour <= 0) {
-      alert("Παρακαλώ συμπληρώστε όλα τα πεδία με θετικές τιμές.");
+      if (window.showToast) window.showToast("Παρακαλώ συμπληρώστε όλα τα πεδία με θετικές τιμές.", "warning"); else alert("Παρακαλώ συμπληρώστε όλα τα πεδία με θετικές τιμές.");
       return;
     }
 
@@ -161,7 +161,7 @@ function initAnchorCalculator() {
     const rodeType = typeSelect.value;
 
     if (depth <= 0) {
-      alert("Παρακαλώ εισάγετε έγκυρο βάθος σε μέτρα.");
+      if (window.showToast) window.showToast("Παρακαλώ εισάγετε έγκυρο βάθος σε μέτρα.", "warning"); else alert("Παρακαλώ εισάγετε έγκυρο βάθος σε μέτρα.");
       return;
     }
 
