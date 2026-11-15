@@ -98,12 +98,12 @@ class QuizEngine {
       this.btnSubmitExam.addEventListener('click', () => {
         const qData = this.currentList[this.currentIndex];
         if (this.userAnswers[qData.id] === undefined) {
-          alert('Η απάντηση είναι υποχρεωτική! Παρακαλούμε επιλέξτε μία απάντηση.');
+          if (window.showToast) window.showToast('Η απάντηση είναι υποχρεωτική! Παρακαλούμε επιλέξτε μία απάντηση.', 'warning'); else alert('Η απάντηση είναι υποχρεωτική! Παρακαλούμε επιλέξτε μία απάντηση.');
           return;
         }
         const unanswered = this.currentList.filter(q => this.userAnswers[q.id] === undefined);
         if (unanswered.length > 0) {
-          alert(`Υπάρχουν ${unanswered.length} αναπάντητες ερωτήσεις. Κάθε απάντηση είναι υποχρεωτική.`);
+          if (window.showToast) window.showToast(`Υπάρχουν ${unanswered.length} αναπάντητες ερωτήσεις. Κάθε απάντηση είναι υποχρεωτική.`, 'warning'); else alert(`Υπάρχουν ${unanswered.length} αναπάντητες ερωτήσεις. Κάθε απάντηση είναι υποχρεωτική.`);
           return;
         }
         const confirmMsg = (this.mode === 'exam')
@@ -418,7 +418,7 @@ class QuizEngine {
       const savedIds = this.getSavedQuestionIds();
       this.currentList = this.allQuestions.filter(q => savedIds.includes(q.id));
       if (this.currentList.length === 0) {
-        alert("Δεν υπάρχουν αποθηκευμένες ερωτήσεις ακόμη! Όταν κάνετε λάθος σε ένα τεστ ή πατάτε 'Αποθήκευση', οι ερωτήσεις συγκεντρώνονται εδώ.");
+        if (window.showToast) window.showToast("Δεν υπάρχουν αποθηκευμένες ερωτήσεις ακόμη! Όταν κάνετε λάθος σε ένα τεστ ή πατάτε 'Αποθήκευση', οι ερωτήσεις συγκεντρώνονται εδώ.", "info"); else alert("Δεν υπάρχουν αποθηκευμένες ερωτήσεις ακόμη!");
         return;
       }
       this.timerContainer.classList.add('hidden');
@@ -466,7 +466,7 @@ class QuizEngine {
       this.updateTimerDisplay();
       if (this.timeRemaining <= 0) {
         clearInterval(this.timer);
-        alert('Ο χρόνος εξέτασης (40 λεπτά) εξαντλήθηκε! Το γραπτό σας υποβάλλεται αυτόματα.');
+        if (window.showToast) window.showToast('Ο χρόνος εξέτασης (40 λεπτά) εξαντλήθηκε! Το γραπτό σας υποβάλλεται αυτόματα.', 'error', 4500); else alert('Ο χρόνος εξέτασης (40 λεπτά) εξαντλήθηκε!');
         this.finishQuiz();
       }
     }, 1000);
@@ -663,7 +663,7 @@ class QuizEngine {
   nextQuestion() {
     const qData = this.currentList[this.currentIndex];
     if (this.userAnswers[qData.id] === undefined) {
-      alert("Η απάντηση είναι υποχρεωτική! Παρακαλούμε επιλέξτε μία απάντηση πριν προχωρήσετε.");
+      if (window.showToast) window.showToast("Η απάντηση είναι υποχρεωτική! Παρακαλούμε επιλέξτε μία απάντηση πριν προχωρήσετε.", "warning"); else alert("Η απάντηση είναι υποχρεωτική!");
       return;
     }
     if (this.currentIndex < this.currentList.length - 1) {
