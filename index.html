@@ -1213,7 +1213,7 @@
   <!-- WELCOME MODAL (Μορφή 1: Onboarding Pop-up) -->
   <!-- ============================================================== -->
   <div id="welcome-modal"
-    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden transition-opacity duration-300">
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm transition-opacity duration-300">
 
     <!-- Modal Card (Responsive for Site & Mobile App) -->
     <div id="welcome-modal-card"
@@ -1246,15 +1246,9 @@
         </div>
 
         <!-- Modal Footer -->
-        <div class="pt-3 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-800">
-          <label class="flex items-center space-x-2 text-xs text-slate-400 cursor-pointer select-none">
-            <input type="checkbox" id="welcome-dont-show"
-              class="rounded border-slate-700 bg-slate-800 text-sky-500 focus:ring-sky-500">
-            <span>Να μην εμφανιστεί ξανά αυτόματα</span>
-          </label>
-
+        <div class="pt-3 flex items-center justify-center border-t border-slate-800">
           <button id="welcome-start-btn"
-            class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-sm transition-all shadow-lg hover:shadow-sky-500/25 cursor-pointer">
+            class="w-full sm:w-auto ml-auto inline-flex items-center justify-center space-x-2 px-6 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-sm transition-all shadow-lg hover:shadow-sky-500/25 cursor-pointer">
             <span>Έναρξη Περιήγησης</span>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -1267,18 +1261,11 @@
   </div>
 
 
-  <!-- Immediate First-Visit Welcome Modal Check -->
+  <!-- Immediate Welcome Modal Display (Always on Load) -->
   <script>
     (function() {
-      try {
-        if (!localStorage.getItem('taxyploo_welcome_v2')) {
-          var m = document.getElementById('welcome-modal');
-          if (m) m.classList.remove('hidden');
-        }
-      } catch(e) {
-        var m = document.getElementById('welcome-modal');
-        if (m) m.classList.remove('hidden');
-      }
+      var m = document.getElementById('welcome-modal');
+      if (m) m.classList.remove('hidden');
     })();
   </script>
 
