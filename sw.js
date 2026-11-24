@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tachyploo-exams-v2';
+const CACHE_NAME = 'tachyploo-exams-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
