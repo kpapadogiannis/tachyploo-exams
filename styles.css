@@ -225,3 +225,16 @@ body {
   will-change: transform;
   transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
 }
+
+/* Welcome Modal (Responsive for Site & Mobile App) */
+#welcome-modal {
+  z-index: 60;
+}
+
+#welcome-modal-card {
+  width: min(92vw, 640px);
+  max-width: 94vw;
+  max-height: 90vh;
+  max-height: 90dvh;
+  overflow-y: auto;
+}
