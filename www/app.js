@@ -199,6 +199,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const welcomeDontShow = document.getElementById('welcome-dont-show');
 
   function openWelcomeModal() {
+    if (sidebar) sidebar.classList.add('-translate-x-full');
+    if (backdrop) backdrop.classList.add('hidden');
     const modal = welcomeModal || document.getElementById('welcome-modal');
     if (modal) {
       modal.classList.remove('hidden');
@@ -285,6 +287,16 @@ document.addEventListener('DOMContentLoaded', () => {
   function handleTouchStart(e) {
     if (isRefreshing) return;
     if (e.touches.length !== 1) return;
+
+    const activeWelcome = welcomeModal || document.getElementById('welcome-modal');
+    if (activeWelcome && !activeWelcome.classList.contains('hidden')) {
+      isPullingToRefresh = false;
+      return;
+    }
+    if (sidebar && !sidebar.classList.contains('-translate-x-full') && window.innerWidth < 768) {
+      isPullingToRefresh = false;
+      return;
+    }
 
     // Ενεργοποιείται μόνο εάν ο χρήστης βρίσκεται στην κορυφή της σελίδας
     if (getScrollTop() <= 2) {
